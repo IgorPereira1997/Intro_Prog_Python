@@ -1,0 +1,83 @@
+ALTER TABLE escola_curso.alunos_cursos
+ADD INDEX fk_id_aluno_idx (id_aluno ASC),
+ADD INDEX fk_id_curso_idx (id_curso ASC);
+
+ALTER TABLE escola_curso.alunos_cursos
+ADD CONSTRAINT fk_id_aluno 
+	FOREIGN KEY(id_aluno) 
+    REFERENCES escola_curso.alunos (id_aluno) 
+    ON DELETE NO ACTION 
+    ON UPDATE NO ACTION,
+ADD CONSTRAINT fk_id_curso 
+	FOREIGN KEY(id_curso) 
+    REFERENCES escola_curso.cursos(id_curso) 
+    ON DELETE NO ACTION 
+    ON UPDATE NO ACTION
+
+
+
+ALTER TABLE escola_curso.notas
+	ADD COLUMN id_aluno_cursos INT NOT NULL AFTER id_nota,
+    ADD INDEX fk_id_aluno_cursos_idx (id_aluno_cursos ASC);
+    
+ALTER TABLE escola_curso.notas
+	ADD CONSTRAINT fk_id_aluno_cursos
+    	FOREIGN KEY (id_aluno_cursos)
+        REFERENCES escola_curso.alunos_cursos(id_aluno_cursos)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION
+
+
+
+
+INSERT INTO cursos VALUES
+	(DEFAULT, 'Codeigniter'),
+    (DEFAULT, 'Python'),
+    (DEFAULT, 'MySQL');
+
+INSERT INTO alunos_cursos VALUES
+	(DEFAULT, 1, 1),
+    (DEFAULT, 1, 2),
+    (DEFAULT, 2, 1),
+    (DEFAULT, 2, 3),
+    (DEFAULT, 3, 1),
+    (DEFAULT, 3, 2),
+    (DEFAULT, 4, 1),
+    (DEFAULT, 5, 1);
+    
+INSERT INTO notas VALUES
+	(DEFAULT, 1, 'Prova 1', 28.0),
+    (DEFAULT, 3, 'Prova 1', 25.0),
+    (DEFAULT, 5, 'Prova 1', 28.0),
+    (DEFAULT, 2, 'Exercício 1', 10.0),
+    (DEFAULT, 6, 'Exercício 2', 12.0),
+    (DEFAULT, 1, 'Prova 2', 28.0),
+    (DEFAULT, 2, 'Prova 2', 28.0)
+
+
+
+
+SELECT 
+	A.id_aluno, 
+    A.nome, 
+    C.id_curso,
+    C.nome
+FROM 
+	alunos as A, 
+    alunos_cursos as AC, 
+    cursos as C 
+WHERE A.id_aluno = AC.id_aluno AND
+	  C.id_curso = AC.id_curso
+
+
+Criar novos usuários
+
+Previleges -> add new User
+
+
+Backup database
+
+mysqldump -u root -p your_database > backup.sql
+
+mysql -u root -p your_database < backup.sql
+

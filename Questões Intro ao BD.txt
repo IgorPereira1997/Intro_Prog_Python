@@ -1,0 +1,137 @@
+IMPORT filmes.csv INTO YOUR DB !!!
+
+1. Quais são os 10 filmes mais apreciados pelo público?
+
+Commando: SELECT filme, nota_audiencia FROM `filmes` ORDER BY nota_audiencia DESC LIMIT 10
+R: In order from 1st to 10th:
+	The Dark Knight, 50/50, Warrior, Inception, Avatar,
+	Star Trek, The Artist, The Bourne Ultimatum, The Help,
+	Iron Man 
+
+
+2. Quais são os 10 filmes mais apreciados pela crítica especializada?
+
+Commando: SELECT filme, nota_especialistas FROM `filmes` ORDER BY nota_especialistas DESC LIMIT 10
+
+R: In order from 1st to 10th:
+	The Artist, The Hurt Locker, The Muppets, True Grit,
+	No Country for Old Men, Moneyball, An Education,
+	Winter's Bone, Star Trek, The Dark Knight
+
+
+3. Quais são os 10 filmes mais odiados pelo público?
+
+Command: SELECT filme, nota_audiencia FROM `filmes` ORDER BY nota_audiencia LIMIT 10
+R: In order from 1st to 10th:
+	Paranormal Activity 2, Something Borrowed, Skyline
+	Stone, The Haunting of Molly Hartley, Jonah Hex, Trespass,
+	Shark Night 3D, Kit Kittredge: An American Girl
+
+
+4. Quais são os 10 filmes mais odiados pela crítica especializada?
+
+Command: SELECT filme, nota_especialistas FROM `filmes` ORDER BY nota_especialistas LIMIT 10
+R: In order from 1st to 10th:
+	One Missed Call, Paranormal Activity 2, Something Borrowed,
+	Daddy Day Camp, Disaster Movie, Epic Movie, Meet the Spartans,
+	Good Luck Chuck, The Haunting of Molly Hartley, Vampires Suck
+
+
+5. Qual filme com maior custo e qual filme com menor custo?
+
+Command: (Maior Custo) => SELECT filme, custo FROM `filmes` ORDER BY custo LIMIT 1
+	 (Menor Custo) => SELECT filme, custo FROM `filmes` ORDER BY custo DESC LIMIT 1
+
+R: Maior Custo => Pirates of the Caribbean: At World's End (300 milions)
+   Menor Custo => When in rome (0 millions) 
+
+
+6. Qual a média da nota da crítica especializada?
+
+Command: SELECT AVG(nota_especialistas) FROM filmes
+R: 47,3039
+
+
+7. Qual a média da nota do público?
+
+Command: SELECT AVG(nota_audiencia) FROM filmes
+R: 58,8310
+
+
+8. Qual a média de custo de filmes?
+
+Command: SELECT AVG(custo) FROM filmes
+R: 50,1050 milhões
+
+
+9. Quantos filmes custaram mais do que o custo médio dos filmes da tabela?
+
+Command: SELECT COUNT(*) FROM filmes WHERE custo > (SELECT AVG(custo) FROM filmes)
+R: 179 filmes 
+
+
+10. Quais são os filmes com nota acima da média das notas dadas pela crítica especializada?
+
+Command: SELECT filme FROM filmes WHERE nota_especialistas > (SELECT AVG(nota_especialistas) FROM filmes) ORDER BY nota_especialistas DESC
+R: Muitos filmes para se escrever XD
+
+
+11. Quais são os filmes com nota acima da média das notas dadas pelo público? Quais os melhores?
+
+Command: SELECT filme FROM filmes WHERE nota_audiencia > (SELECT AVG(nota_audiencia) FROM filmes) ORDER BY nota_audiencia DESC
+R: Muitos Filmes para se escrever XD
+
+
+12. Quais são os tipos de categoria (gêneros) existentes?
+
+Command: SELECT DISTINCT genero FROM filmes
+	 SELECT genero FROM `filmes` GROUP BY genero
+R: Comedy, Adventure, Action, Horror, Drama, Romance
+
+
+13. Quais são os três gêneros com maior quantidade de filmes?
+
+Command: SELECT genero, COUNT(*) as total FROM `filmes` GROUP BY genero ORDER BY total DESC LIMIT 3
+R: Comedy (172), Action(154), Drama(101)
+
+
+14. Qual gênero tem a mais alta média de custo?
+
+Command: SELECT genero, AVG(custo) as media FROM `filmes` GROUP BY genero ORDER BY media DESC LIMIT 1
+R: Action(84,6299 millions)
+
+
+15. Qual gênero tem a mais alta média de nota para o público?
+
+Command: SELECT genero, AVG(nota_audiencia) as media FROM `filmes` GROUP BY genero ORDER BY media DESC LIMIT 1
+R: Thriller
+
+
+16. Qual gênero tem a mais alta média de nota para a crítica especializada?
+
+Command: SELECT genero, AVG(nota_especialistas) as media FROM `filmes` GROUP BY genero ORDER BY media DESC LIMIT 1
+R: Thriller
+
+
+17. Quantos filmes foram produzidos por ano?
+
+Command: SELECT ano, COUNT(*) as total FROM `filmes` GROUP BY ano ORDER BY ano
+R: 2007(79 filmes), 2008(125 filmes), 2009(116 filmes), 
+   2010(119 filmes), 2011(123 filmes)
+
+
+18. Qual ano foram produzidos mais filmes?
+
+Command: SELECT ano, COUNT(*) as total FROM `filmes` GROUP BY ano ORDER BY total DESC LIMIT 1
+R: 2008 (125 filmes)
+
+
+19. Qual gênero produziu mais filmes em um ano?
+
+Command: SELECT COUNT(ano) as total, ano, genero FROM filmes GROUP BY ano, genero ORDER BY total desc LIMIT 3
+R: Comedy (2008, 2009) with 71 films
+
+20. Qual o filme mais amado pela audiência e pelos especialistas ao mesmo tempo?
+
+Command: SELECT filme, (nota_especialistas + nota_audiencia)/2 as max_geral FROM filmes ORDER BY max_geral DESC LIMIT 1
+R:The Dark Knight, with a medium mark between specialists and public at 95
